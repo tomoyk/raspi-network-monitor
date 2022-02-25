@@ -22,13 +22,17 @@ func main() {
 		return
 	}
 
-	stmt, err := db.Prepare("insert into metrics(ts, value) values(?, ?)")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer stmt.Close()
+	for i := 0; i < 100; i++ {
+		log.Println(i)
+		stmt, err := db.Prepare("insert into metrics(ts, value) values(?, ?)")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer stmt.Close()
 
-	dt := time.Now()
-	unix := dt.Unix()
-	stmt.Exec(unix, 10)
+		dt := time.Now()
+		unix := dt.Unix()
+		stmt.Exec(unix, i%10)
+		time.Sleep(time.Second)
+	}
 }

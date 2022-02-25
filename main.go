@@ -13,7 +13,7 @@ func main() {
 	defer db.Close()
 
 	sqlStmt := `
-	create table metrics (timestamp INTEGER NOT NULL PRIMARY KEY, value REAL);
+	create table metrics (ts INTEGER NOT NULL PRIMARY KEY, value REAL);
 	delete from metrics;
 	`
 	_, err = db.Exec(sqlStmt)
@@ -22,7 +22,7 @@ func main() {
 		return
 	}
 
-	stmt, err := db.Prepare("insert into metrics(timestamp, value) values(?, ?)")
+	stmt, err := db.Prepare("insert into metrics(ts, value) values(?, ?)")
 	if err != nil {
 		log.Fatal(err)
 	}
